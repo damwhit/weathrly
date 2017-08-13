@@ -30,6 +30,7 @@ class SearchResults extends Component {
 
   sendLocationSearch = async (searchTerm) => {
     try {
+      if (this.state.showInitialMessage) this.setState({showInitialMessage: false});
       this.setState({isLoading: true});
       const json = await $.getJSON(`http://api.wunderground.com/api/2bac2cfbc182e18d/geolookup/q/${searchTerm}.json`)
       if (json.response.error) {
@@ -61,7 +62,7 @@ class SearchResults extends Component {
     const conditionsResponse = weatherResponses[0];
     const forecastResponse = weatherResponses[1];
     this.setSearchResultsToBeDisplayed(locationQueryResult, conditionsResponse, forecastResponse);
-    this.setState({showInitialMessage: false, isLoading: false});
+    this.setState({isLoading: false});
   }
 
   setSearchResultsToBeDisplayed(locationQueryResult, conditionsResponse, forecastResponse) {
