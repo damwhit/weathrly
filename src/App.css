@@ -1,0 +1,45 @@
+.app {
+  background-color: #D3D3D3;
+  font-family: 'Montserrat', sans-serif;
+  margin: 0 auto;
+  min-height: 100vh;
+  max-width: 500px;
+  min-width: 300px;
+}
+
+.app-logo {
+  height: 75px;
+}
+
+.app-header {
+  background-color: #000;
+  color: #D3D3D3;
+  height: 125px;
+  padding: 20px;
+  text-align: center;
+}
+
+.search {
+  width: 200px;
+  margin: 20px auto;
+}
+
+label {
+  font-size: 16px;
+  text-align: left;
+  display: block;
+}
+
+.flex {
+  width: 100%;
+  display: flex;
+}
+input[type=text] {
+}
+
+input[type=submit] {
+  background-color: purple;
+  border: 1px solid purple;
+  border-radius: 0;
+  color: white;
+}
