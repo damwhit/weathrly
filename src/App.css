@@ -29,6 +29,7 @@
 @media (max-width: 544px) {
   .search {
     margin: 20px;
+    padding-bottom: 40px;
   }
 }
 

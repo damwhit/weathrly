@@ -12,7 +12,7 @@ class SearchResults extends Component {
 
   componentDidMount() {
     const searchTerm = this.findSearchTerm(this.props.history.location);
-    this.sendLocationSearch(searchTerm);
+    if (searchTerm) this.sendLocationSearch(searchTerm);
     this.listenForSearchQuery();
   }
 
@@ -24,7 +24,7 @@ class SearchResults extends Component {
   listenForSearchQuery() {
     this.props.history.listen((location, action) => {
       const searchTerm = this.findSearchTerm(location);
-      this.sendLocationSearch(searchTerm);
+      if (searchTerm) this.sendLocationSearch(searchTerm);
     });
   }
 
@@ -54,14 +54,14 @@ class SearchResults extends Component {
   }
 
   getConditionsAndForecast = async (locationQueryResult, shortCode) => {
-    try {
-      const conditionsResponse = await $.getJSON(`http://api.wunderground.com/api/2bac2cfbc182e18d/conditions${shortCode}.json`);
-      const forecastResponse = await $.getJSON(`http://api.wunderground.com/api/2bac2cfbc182e18d/forecast${shortCode}.json`);
-      this.setSearchResultsToBeDisplayed(locationQueryResult, conditionsResponse, forecastResponse);
-      this.setState({showInitialMessage: false, isLoading: false});
-    } catch (e) {
-      console.log(e);
-    }
+    const weatherResponses = await Promise.all([
+      $.getJSON(`http://api.wunderground.com/api/2bac2cfbc182e18d/conditions${shortCode}.json`),
+      $.getJSON(`http://api.wunderground.com/api/2bac2cfbc182e18d/forecast${shortCode}.json`)
+    ]);
+    const conditionsResponse = weatherResponses[0];
+    const forecastResponse = weatherResponses[1];
+    this.setSearchResultsToBeDisplayed(locationQueryResult, conditionsResponse, forecastResponse);
+    this.setState({showInitialMessage: false, isLoading: false});
   }
 
   setSearchResultsToBeDisplayed(locationQueryResult, conditionsResponse, forecastResponse) {
