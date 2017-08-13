@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import createHistory from 'history/createBrowserHistory'
-const history = createHistory();
 
 class SearchForm extends Component {
   constructor(props) {
@@ -18,16 +16,12 @@ class SearchForm extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    history.listen((location, action) => {
-      console.log(`The current URL is ${location.pathname}${location.search}${location.hash}`)
-      console.log(`The last navigation action was ${action}`)
-    })
     const location = {
       pathname: '/search',
       search: `?location=${this.state.value}`
     }
 
-    history.push(location);
+    this.props.history.push(location);
   }
 
   render() {
