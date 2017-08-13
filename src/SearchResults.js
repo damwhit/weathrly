@@ -4,7 +4,10 @@ import $ from "jquery";
 class SearchResults extends Component {
   constructor(props) {
     super(props);
-    this.state = {hasResults: false};
+    this.state = {
+      showInitialMessage: true,
+      hasResults: false
+    };
   }
 
   componentDidMount() {
@@ -44,7 +47,10 @@ class SearchResults extends Component {
   }
 
   setNoResults() {
-    this.setState({isLoading: false, hasResults: false});
+    this.setState({
+      isLoading: false,
+      hasResults: false}
+    );
   }
 
   getConditionsAndForecast = async (locationQueryResult, shortCode) => {
@@ -52,7 +58,7 @@ class SearchResults extends Component {
       const conditionsResponse = await $.getJSON(`http://api.wunderground.com/api/2bac2cfbc182e18d/conditions${shortCode}.json`);
       const forecastResponse = await $.getJSON(`http://api.wunderground.com/api/2bac2cfbc182e18d/forecast${shortCode}.json`);
       this.setSearchResultsToBeDisplayed(locationQueryResult, conditionsResponse, forecastResponse);
-      this.setState({isLoading: false});
+      this.setState({showInitialMessage: false, isLoading: false});
     } catch (e) {
       console.log(e);
     }
@@ -75,6 +81,7 @@ class SearchResults extends Component {
 
   render() {
     if (this.state.isLoading) return <div className="loader">Loading...</div>;
+    if (this.state.showInitialMessage) return <h1>Find Weather Near You</h1>;
     if (!this.state.hasResults) return <h1>No Results Found</h1>;
     return (
       <div>
